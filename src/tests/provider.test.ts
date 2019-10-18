@@ -1,5 +1,5 @@
-import { Provider } from "../context";
-import { TestStore } from "./helpers/TestStore";
+import { Provider } from '../context';
+import { TestStore } from './helpers/TestStore';
 
 
 let provider = Provider;
