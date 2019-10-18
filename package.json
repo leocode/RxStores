@@ -1,0 +1,36 @@
+{
+  "name": "@leocode/rxstores",
+  "version": "0.0.1",
+  "description": "Rx.js based state manager for JS apps",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/LeoCodePL/RxStores.git"
+  },
+  "keywords": [
+    "store",
+    "modular",
+    "observer",
+    "observable",
+    "javascript",
+    "typescript"
+  ],
+  "author": "Leocode",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LeoCodePL/RxStores/issues"
+  },
+  "homepage": "https://github.com/LeoCodePL/RxStores#readme",
+  "dependencies": {
+    "@types/jest": "^24.0.19",
+    "jest": "^24.9.0",
+    "rxjs": "^6.5.3",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.4"
+  }
+}
