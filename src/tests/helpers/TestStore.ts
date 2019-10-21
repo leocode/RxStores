@@ -9,7 +9,7 @@ export const initialValue: Model = { message: 'Hello, test!' };
 export const changedValue: Model = { message: 'Data changed.' };
 
 export class TestStore extends AbstractStore<Model> {
-  constructor() {
+  constructor(initialValue?: Model) {
     super(initialValue);
   }
 
@@ -18,6 +18,9 @@ export class TestStore extends AbstractStore<Model> {
   }
 
   changeMessage() {
+    // @ts-ignore
+    const oldValue = this.value;
+
     this.emit(changedValue);
   }
 }
