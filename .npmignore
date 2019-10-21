@@ -1,0 +1,11 @@
+!lib
+src
+coverage
+.editorconfig
+.eslintrc.json
+.gitignore
+.np-config.json
+jest.config.js
+tsconfig.json
+*.tgz
+lib/tests
