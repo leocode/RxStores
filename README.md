@@ -56,26 +56,39 @@ The simplest store one can create looks like this:
 import { Store } from '@leocode/rxstores';
 
 export class SomeStore extends Store {
-  init() {}
+  init() {} // must be defined!
 }
 ```
+
+At this point, we have created the definition of SomeStore. Notice the `init` function, which is called right after the store is created. You might want to put here some initialization logic, e.g. API data fetching. Every store should implement initialization logic, even if empty.
 
 Then, it can be used this way:
 ```typescript
 // index.js/ts
 
+// define a callback function that will be called every time store's state changes
 function onDataChange(data) {
   console.log('New data!', data);
 }
 
+// get a store from the global context
 const store = Provider.getStore(SomeStore);
-// Or, if you want to use a custom context
+// or from a custom context
 const store = Provider.from('some custom context').getStore(SomeStore);
 
-const subscription = store.data.subscribe(onDataChange);
+// subscribe to the store with a callback function
+const subscription = store.data$.subscribe(onDataChange);
+
+// get store's current value using `value` property getter
+const currentValue = store.value;
+
+// emit a new value using `value` property setter
+store.value = 'some different value';
 ```
 
-This doesn't do much, though. There's no initial data and no methods that could change the state.
+Provider lets us get a store directly from the global context, or specify a custom one with `.from('context name')`. 
+
+This implementation doesn't do much, though. There's no initial data and no methods that could change the state. Let's fix this.
 
 
 ### Defining a data model and initial value
@@ -85,15 +98,62 @@ This doesn't do much, though. There's no initial data and no methods that could 
 ```typescript
 // stores/some.store.ts
 
+// define a model for data stored within the store below
 export interface SomeModel {
   superImportantValue: number;
 }
 
+// create a store by extending base Store class and provide model type
 export class SomeStore extends Store<SomeModel> {
   constructor() {
     const initialValue: SomeModel = { superImportantValue: 5 };
 
+    // let base Store know that you want to provide an initial value
     super(initialValue);
+  }
+
+  init() {}
+}
+```
+
+Now, we have provided an initial value for SomeStore. If initial value fetching logic is asynchronous, one can put it inside `init` method.
+
+```typescript
+...
+
+export class SomeStore extends Store<SomeModel> {
+  ...
+
+  // we can use async keyword here
+  async init() {
+    const remoteData = await fetch('/super-important-data')
+      .then(r => r.json());
+    this.value = remoteData;
+  }
+}
+```
+
+The issue is that view controllers are not able to know whether the data is loading, errored while loading, or is just non-existent. We can use a model helper class called Loadable.
+
+```typescript
+import { Loadable } from '@leocode/rxstores/helpers';
+
+...
+
+export class SomeStore extends Store<SomeModel> {
+  constructor() {
+    super(Loadable.ofLoading<SomeModel>());
+  }
+
+  // we can use async keyword here
+  async init() {
+    try {
+      const remoteData = await fetch('/super-important-data')
+        .then(r => r.json());
+      this.value = Loadable.ofData(remoteData);
+    } catch (e) {
+      this.value = Loadable.ofError(e);
+    }
   }
 }
 ```
@@ -109,10 +169,12 @@ export class SomeStore extends Store<SomeModel> {
     super({ superImportantValue: 5 });
   }
 
+  init() {}
+
   generateNewValue() {
     const newValue = Math.round(Math.random() * 10);
 
-    this.emit(newValue);
+    this.value = newValue;
   }
 
   // all the methods go here
