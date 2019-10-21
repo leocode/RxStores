@@ -14,10 +14,10 @@ export class TestStore extends AbstractStore<Model> {
   }
 
   init() {
-    this.dataSource.next({ ...initialValue, initialized: true });
+    this.emit({ ...initialValue, initialized: true });
   }
 
   changeMessage() {
-    this.dataSource.next(changedValue);
+    this.emit(changedValue);
   }
 }
