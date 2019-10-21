@@ -21,8 +21,12 @@ export abstract class AbstractStore<T = any> {
 
   abstract init(): void | Promise<void>;
 
-  protected emit(value: T) {
+  protected emit(value: T): void {
     this.dataSource.next(value);
+  }
+
+  protected get value(): T {
+    return this.dataSource.getValue();
   }
 
   get data(): Observable<T> {

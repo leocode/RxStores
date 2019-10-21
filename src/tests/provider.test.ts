@@ -1,4 +1,4 @@
-import { Provider } from '../context';
+import { Provider } from '..';
 import { TestStore } from './helpers/TestStore';
 
 
