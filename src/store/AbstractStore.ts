@@ -1,9 +1,11 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export type StoreInterface<Store extends AbstractStore> = Omit<Store, 'data' | 'methods'>;
+export type StoreInterface<Store extends AbstractStore> = Omit<Store,
+  'init' | 'emit' | 'data' | 'methods'
+>;
 
 export abstract class AbstractStore<T = any> {
-  protected dataSource: BehaviorSubject<T>;
+  private dataSource: BehaviorSubject<T>;
   private dataOutput: Observable<T>;
   
   constructor(initialValue?: T) {
@@ -17,6 +19,12 @@ export abstract class AbstractStore<T = any> {
     this.init();
   }
 
+  abstract init(): void | Promise<void>;
+
+  protected emit(value: T) {
+    this.dataSource.next(value);
+  }
+
   get data(): Observable<T> {
     return this.dataOutput;
   }
@@ -24,6 +32,4 @@ export abstract class AbstractStore<T = any> {
   get methods(): StoreInterface<this> {
     return this as StoreInterface<this>;
   }
-
-  abstract init(): void | Promise<void>;
 }
