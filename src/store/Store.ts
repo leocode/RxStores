@@ -10,13 +10,17 @@ export abstract class Store<T = any> {
   
   constructor(initialValue?: T) {
     if (new.target === Store) {
-      throw new TypeError('Store is only a base for defined stores');
+      throw new Error('Store is only a base for defined stores');
     }
     
     this.dataSource = new BehaviorSubject(initialValue || (null as any));
     this.dataOutput = this.dataSource.pipe();
 
-    this.init();
+    if (typeof this.init === 'function') {
+      this.init();
+    } else {
+      throw new Error('Init function is not defined');
+    }
   }
 
   abstract init(): void | Promise<void>;
@@ -25,7 +29,7 @@ export abstract class Store<T = any> {
     this.dataSource.next(value);
   }
 
-  protected get value(): T {
+  get value(): T {
     return this.dataSource.getValue();
   }
 

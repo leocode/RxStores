@@ -22,7 +22,7 @@
     "src/**/*.ts": [
       "eslint",
       "git add",
-      "jest"
+      "jest --passWithNoTests"
     ]
   },
   "keywords": [
