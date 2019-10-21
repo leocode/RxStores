@@ -14,13 +14,13 @@ export class TestStore extends Store<Model> {
   }
 
   init() {
-    this.emit({ ...initialValue, initialized: true });
+    this.value = { ...initialValue, initialized: true };
   }
 
   changeMessage() {
     // @ts-ignore
     const oldValue = this.value;
 
-    this.emit(changedValue);
+    this.value = changedValue;
   }
 }

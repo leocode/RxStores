@@ -18,7 +18,7 @@ describe('Context', () => {
 
     expect(testStore).toBeInstanceOf(TestStore);
 
-    testStore.data.pipe(take(1)).subscribe(data => {
+    testStore.data$.pipe(take(1)).subscribe(data => {
       expect(data.initialized).toBe(true);
       done();
     });

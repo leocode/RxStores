@@ -26,7 +26,7 @@ describe('Test store', () => {
 
   it('should provide an initial value', done => {
     const storeWithInitial = new TestStore(initialValue);
-    storeWithInitial.data.pipe(take(1)).subscribe(data => {
+    storeWithInitial.data$.pipe(take(1)).subscribe(data => {
       expect(data).not.toBeNull();
       expect(data.message).toBe(initialValue.message);
       done();
@@ -34,7 +34,7 @@ describe('Test store', () => {
   });
 
   it('should trigger an init when created', done => {
-    store.data.pipe(take(1)).subscribe(data => {
+    store.data$.pipe(take(1)).subscribe(data => {
       expect(data).not.toBeNull();
       expect(data.initialized).toBe(true);
       done();
@@ -43,7 +43,7 @@ describe('Test store', () => {
 
   it('should notify when value changes', done => {
     store.methods.changeMessage();
-    store.data.pipe(take(1)).subscribe(data => {
+    store.data$.pipe(take(1)).subscribe(data => {
       expect(data).not.toBeNull();
       expect(data.message).toBe(changedValue.message);
       done();

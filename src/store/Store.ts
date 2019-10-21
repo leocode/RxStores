@@ -5,16 +5,16 @@ export type StoreInterface<S extends Store> = Omit<S,
 >;
 
 export abstract class Store<T = any> {
-  private dataSource: BehaviorSubject<T>;
-  private dataOutput: Observable<T>;
+  private _dataSource$: BehaviorSubject<T>;
+  private _dataOutput$: Observable<T>;
   
   constructor(initialValue?: T) {
     if (new.target === Store) {
       throw new Error('Store is only a base for defined stores');
     }
     
-    this.dataSource = new BehaviorSubject(initialValue || (null as any));
-    this.dataOutput = this.dataSource.pipe();
+    this._dataSource$ = new BehaviorSubject(initialValue || (null as any));
+    this._dataOutput$ = this._dataSource$.pipe();
 
     if (typeof this.init === 'function') {
       this.init();
@@ -25,16 +25,16 @@ export abstract class Store<T = any> {
 
   abstract init(): void | Promise<void>;
 
-  protected emit(value: T): void {
-    this.dataSource.next(value);
-  }
-
   get value(): T {
-    return this.dataSource.getValue();
+    return this._dataSource$.getValue();
   }
 
-  get data(): Observable<T> {
-    return this.dataOutput;
+  set value(v: T) {
+    this._dataSource$.next(v);
+  }
+
+  get data$(): Observable<T> {
+    return this._dataOutput$;
   }
 
   get methods(): StoreInterface<this> {
