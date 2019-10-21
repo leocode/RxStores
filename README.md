@@ -10,7 +10,18 @@ Modular state manager for TS/JS apps, based on RxJS and focused on performance.
 
 ## Installation
 
-At present, you can obtain the package only from this repository.
+### npm
+
+```
+npm i @leocode/rxstores
+```
+
+### Yarn
+```
+yarn add @leocode/rxstores
+```
+
+Type definitions are built-in.
 
 
 
@@ -86,32 +97,6 @@ export class SomeStore extends Store<SomeModel> {
   }
 }
 ```
-
-#### JavaScript (JSDoc)
-
-```javascript
-// stores/some.store.js
-
-/**
- * @typedef {object} SomeModel
- * @property {number} superImportantValue
- */
-
-/**
- * @class
- * @extends {Store<SomeModel>}
- */
-export class SomeStore extends Store {
-  constructor() {
-    /** @type {SomeModel} */
-    const initialValue = { superImportantValue: 5 };
-
-    super(initialValue);
-  }
-}
-```
-
-> From now on, all examples will use TypeScript.
 
 
 ### Defining the logic interface
