@@ -14,7 +14,7 @@ At present, you can obtain the package only from this repository.
 
 
 
-## Main concepts and principles
+## Main concepts
 
 ### Store
 
@@ -28,11 +28,11 @@ One can use the logic interface either in the store instance itself, or using th
 
 ### Context
 
-The main goal is to simplify things. By default, when one wants to access a store, it is obtained from a single, app-wide source, called **context**. Not all apps are developed the same way, though. This is where a decision was made to allow using custom contexts.
+Context is a named container for stores. By default, the global one is used. One can select a custom one - see the example below.
 
 ### Provider
 
-Speaking of simplifying things, there is a single provider with exposed getters for stores and custom contexts.
+Provider is a single, app-wide mechanism that exposes getters for stores and custom contexts.
 
 ## Usage
 
@@ -40,6 +40,10 @@ Speaking of simplifying things, there is a single provider with exposed getters 
 
 The simplest store one can create looks like this:
 ```typescript
+// stores/some.store.ts
+
+import { AbstractStore } from '@leocode/rxstores';
+
 export class SomeStore extends AbstractStore {
   init() {}
 }
@@ -47,11 +51,15 @@ export class SomeStore extends AbstractStore {
 
 Then, it can be used this way:
 ```typescript
-function onDataChange(data) { ... }
+// index.js/ts
+
+function onDataChange(data) {
+  console.log('New data!', data);
+}
 
 const store = Provider.getStore(SomeStore);
 // Or, if you want to use a custom context
-            = Provider.from('some custom context').getStore(SomeStore);
+const store = Provider.from('some custom context').getStore(SomeStore);
 
 const subscription = store.data.subscribe(onDataChange);
 ```
@@ -64,6 +72,8 @@ This doesn't do much, though. There's no initial data and no methods that could 
 #### TypeScript
 
 ```typescript
+// stores/some.store.ts
+
 export interface SomeModel {
   superImportantValue: number;
 }
@@ -80,6 +90,8 @@ export class SomeStore extends AbstractStore<SomeModel> {
 #### JavaScript (JSDoc)
 
 ```javascript
+// stores/some.store.js
+
 /**
  * @typedef {object} SomeModel
  * @property {number} superImportantValue
@@ -105,6 +117,8 @@ export class SomeStore extends AbstractStore {
 ### Defining the logic interface
 
 ```typescript
+// stores/some.store.ts
+
 export class SomeStore extends AbstractStore<SomeModel> {
   constructor() {
     super({ superImportantValue: 5 });
@@ -123,6 +137,8 @@ export class SomeStore extends AbstractStore<SomeModel> {
 #### Accessing the interface
 
 ```typescript
+// index.js/ts
+
 const someStore = Provider.getStore(SomeStore);
 
 someStore.generateNewValue();
