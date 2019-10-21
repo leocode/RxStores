@@ -3,10 +3,10 @@ import { StoreClass, StoreModel } from './store';
 import * as helpers from './helpers';
 import { Provider } from './context';
 
-const { AbstractStore } = store;
+const { Store } = store;
 
 export {
-  AbstractStore,
+  Store,
   StoreClass,
   StoreModel,
   store,

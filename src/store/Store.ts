@@ -1,16 +1,16 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 
-export type StoreInterface<Store extends AbstractStore> = Omit<Store,
+export type StoreInterface<S extends Store> = Omit<S,
   'init' | 'emit' | 'data' | 'methods'
 >;
 
-export abstract class AbstractStore<T = any> {
+export abstract class Store<T = any> {
   private dataSource: BehaviorSubject<T>;
   private dataOutput: Observable<T>;
   
   constructor(initialValue?: T) {
-    if (new.target === AbstractStore) {
-      throw new TypeError('AbstractStore is only a base for defined stores');
+    if (new.target === Store) {
+      throw new TypeError('Store is only a base for defined stores');
     }
     
     this.dataSource = new BehaviorSubject(initialValue || (null as any));

@@ -1,11 +1,11 @@
-import { AbstractStore, StoreInterface } from './AbstractStore';
+import { Store, StoreInterface } from './Store';
 
-type StoreClass<T extends AbstractStore> = new () => T;
+type StoreClass<T extends Store> = new () => T;
 
-type StoreModel<T> = T extends AbstractStore<infer M> ? M : never;
+type StoreModel<T> = T extends Store<infer M> ? M : never;
 
 export {
-  AbstractStore,
+  Store,
   StoreClass,
   StoreInterface,
   StoreModel,

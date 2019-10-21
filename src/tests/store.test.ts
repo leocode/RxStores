@@ -1,13 +1,13 @@
 import { take } from 'rxjs/operators';
-import { AbstractStore } from '../store';
+import { Store } from '../store';
 import { TestStore, initialValue, changedValue } from './helpers/TestStore';
 
 let store: TestStore;
 
 describe('Abstract store', () => {
-  it('should not allow to create a direct instance of AbstractStore', () => {
+  it('should not allow to create a direct instance of Store', () => {
     // @ts-ignore
-    expect(() => new AbstractStore()).toThrowError();
+    expect(() => new Store()).toThrowError();
   });
 });
 
@@ -16,8 +16,8 @@ describe('Test store', () => {
     store = new TestStore();
   });
 
-  it('should create as an instance of AbstractStore', () => {
-    expect(store).toBeInstanceOf(AbstractStore);
+  it('should create as an instance of Store', () => {
+    expect(store).toBeInstanceOf(Store);
   });
 
   it('should create as an instance of TestStore', () => {

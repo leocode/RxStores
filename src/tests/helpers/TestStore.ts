@@ -1,4 +1,4 @@
-import { AbstractStore } from '../../store';
+import { Store } from '../../store';
 
 interface Model {
   message: string;
@@ -8,7 +8,7 @@ interface Model {
 export const initialValue: Model = { message: 'Hello, test!' };
 export const changedValue: Model = { message: 'Data changed.' };
 
-export class TestStore extends AbstractStore<Model> {
+export class TestStore extends Store<Model> {
   constructor(initialValue?: Model) {
     super(initialValue);
   }

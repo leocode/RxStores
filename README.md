@@ -42,9 +42,9 @@ The simplest store one can create looks like this:
 ```typescript
 // stores/some.store.ts
 
-import { AbstractStore } from '@leocode/rxstores';
+import { Store } from '@leocode/rxstores';
 
-export class SomeStore extends AbstractStore {
+export class SomeStore extends Store {
   init() {}
 }
 ```
@@ -78,7 +78,7 @@ export interface SomeModel {
   superImportantValue: number;
 }
 
-export class SomeStore extends AbstractStore<SomeModel> {
+export class SomeStore extends Store<SomeModel> {
   constructor() {
     const initialValue: SomeModel = { superImportantValue: 5 };
 
@@ -99,9 +99,9 @@ export class SomeStore extends AbstractStore<SomeModel> {
 
 /**
  * @class
- * @extends {AbstractStore<SomeModel>}
+ * @extends {Store<SomeModel>}
  */
-export class SomeStore extends AbstractStore {
+export class SomeStore extends Store {
   constructor() {
     /** @type {SomeModel} */
     const initialValue = { superImportantValue: 5 };
@@ -119,7 +119,7 @@ export class SomeStore extends AbstractStore {
 ```typescript
 // stores/some.store.ts
 
-export class SomeStore extends AbstractStore<SomeModel> {
+export class SomeStore extends Store<SomeModel> {
   constructor() {
     super({ superImportantValue: 5 });
   }
