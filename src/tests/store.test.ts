@@ -33,14 +33,6 @@ describe('Test store', () => {
     });
   });
 
-  it('should trigger an init when created', done => {
-    store.data$.pipe(take(1)).subscribe(data => {
-      expect(data).not.toBeNull();
-      expect(data.initialized).toBe(true);
-      done();
-    });
-  });
-
   it('should notify when value changes', done => {
     store.methods.changeMessage();
     store.data$.pipe(take(1)).subscribe(data => {

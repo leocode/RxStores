@@ -15,15 +15,9 @@ export abstract class Store<T = any> {
     
     this._dataSource$ = new BehaviorSubject(initialValue || (null as any));
     this._dataOutput$ = this._dataSource$.pipe();
-
-    if (typeof this.init === 'function') {
-      this.init();
-    } else {
-      throw new Error('Init function is not defined');
-    }
   }
 
-  abstract init(): void | Promise<void>;
+  abstract init?(): void | Promise<void>;
 
   get value(): T {
     return this._dataSource$.getValue();
