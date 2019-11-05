@@ -6,8 +6,6 @@ Modular state manager for TS/JS apps, based on RxJS and focused on performance.
 
 - Basic knowledge of RxJS
 
-
-
 ## Installation
 
 ### npm
@@ -17,13 +15,12 @@ npm i @leocode/rxstores
 ```
 
 ### Yarn
+
 ```
 yarn add @leocode/rxstores
 ```
 
 Type definitions are built-in.
-
-
 
 ## Main concepts
 
@@ -32,6 +29,7 @@ Type definitions are built-in.
 Store acts as **an observable data source** for any view or view-model part of an app. A single store serves single data model. You can define your own interface here. It may be either only a facade for some complex business logic, or a container for some part of the logic as well.
 
 By design, stores will expose two main properties:
+
 - `data` of RxJS Observable type
 - `methods` with logic-only interface exposed
 
@@ -50,10 +48,11 @@ Provider is a single, app-wide mechanism that exposes getters for stores and cus
 ### Simple example
 
 The simplest store one can create looks like this:
+
 ```typescript
 // stores/some.store.ts
 
-import { Store } from '@leocode/rxstores';
+import { Store } from "@leocode/rxstores";
 
 export class SomeStore extends Store {
   init() {} // must be defined!
@@ -63,18 +62,19 @@ export class SomeStore extends Store {
 At this point, we have created the definition of SomeStore. Notice the `init` function, which is called right after the store is created. You might want to put here some initialization logic, e.g. API data fetching. Every store should implement initialization logic, even if empty.
 
 Then, it can be used this way:
+
 ```typescript
 // index.js/ts
 
 // define a callback function that will be called every time store's state changes
 function onDataChange(data) {
-  console.log('New data!', data);
+  console.log("New data!", data);
 }
 
 // get a store from the global context
 const store = Provider.getStore(SomeStore);
 // or from a custom context
-const store = Provider.from('some custom context').getStore(SomeStore);
+const store = Provider.from("some custom context").getStore(SomeStore);
 
 // subscribe to the store with a callback function
 const subscription = store.data$.subscribe(onDataChange);
@@ -83,13 +83,12 @@ const subscription = store.data$.subscribe(onDataChange);
 const currentValue = store.value;
 
 // emit a new value using `value` property setter
-store.value = 'some different value';
+store.value = "some different value";
 ```
 
-Provider lets us get a store directly from the global context, or specify a custom one with `.from('context name')`. 
+Provider lets us get a store directly from the global context, or specify a custom one with `.from('context name')`.
 
 This implementation doesn't do much, though. There's no initial data and no methods that could change the state. Let's fix this.
-
 
 ### Defining a data model and initial value
 
@@ -158,7 +157,6 @@ export class SomeStore extends Store<SomeModel> {
 }
 ```
 
-
 ### Defining the logic interface
 
 ```typescript
@@ -193,12 +191,24 @@ someStore.generateNewValue();
 someStore.methods.generateNewValue();
 ```
 
+### API
 
+#### Store
+
+| Name                | Description                                                                                                                            | isRequired |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| **constructor**     | Here you can pass an initial value for your class, like user object                                                                    | no         |
+| **init**            | Here goes all magic with creating your store. Put here code which has to be run at first, like downloading data, etc.                  | yes        |
+| **_(get)_ value**   | This getter returns the value stored in this specific store, you don’t have to declare it. It is inside, just use it with `this.value` | yes        |
+| **_(get)_ methods** | This returns all method you declare in your class, this can return an empty object if you don’t have any methods                       | no         |
+| **_(get)_ data\$**  | This is your Observable, you should subscribe to it if you want to have a value up to date                                             | yes        |
+| **_(set)_ value**   | Set data with this function in your class implementation                                                                               | no         |
 
 ## Roadmap
 
 While heads can be full of ideas, this library aims to be as modular and performant as possible. Thus, new features will be added to the project when it is obvious that no core rule is broken.
 
 Current ideas include:
+
 - [ ] React bindings
 - [ ] Optional persistence
