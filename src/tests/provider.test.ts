@@ -3,23 +3,23 @@ import { TestStore } from './helpers/TestStore';
 
 describe('Context provider', () => {
   it('should get an instance of test Store from global context', async done => {
-    const testStore = await Provider.getStore(TestStore);
+    const testStore = Provider.getStore(TestStore);
 
     expect(testStore).toBeInstanceOf(TestStore);
     done();
   });
 
   it('should differentiate global and custom contexts', async done => {
-    const globalStore = await Provider.getStore(TestStore);
-    const customStore = await Provider.from('test.custom').getStore(TestStore);
+    const globalStore = Provider.getStore(TestStore);
+    const customStore = Provider.from('test.custom').getStore(TestStore);
 
     expect(globalStore).not.toBe(customStore);
     done();
   });
 
   it('should differentiate custom contexts', async done => {
-    const customStoreA = await Provider.from('test.custom.A').getStore(TestStore);
-    const customStoreB = await Provider.from('test.custom.B').getStore(TestStore);
+    const customStoreA = Provider.from('test.custom.A').getStore(TestStore);
+    const customStoreB = Provider.from('test.custom.B').getStore(TestStore);
 
     expect(customStoreA).not.toBe(customStoreB);
     done();

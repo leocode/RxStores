@@ -14,7 +14,7 @@ describe('Context', () => {
   });
 
   it('should lazy initialize and return an instance of test Store interface', async done => {
-    const testStore = await context.getStore(TestStore);
+    const testStore = context.getStore(TestStore);
 
     expect(testStore).toBeInstanceOf(TestStore);
 
@@ -25,8 +25,8 @@ describe('Context', () => {
   });
 
   it('reuse an existing Store instance in the context', async () => {
-    const storeA = await context.getStore(TestStore);
-    const storeB = await context.getStore(TestStore);
+    const storeA = context.getStore(TestStore);
+    const storeB = context.getStore(TestStore);
 
     expect(storeA).toBe(storeB);
   });
