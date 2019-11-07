@@ -16,4 +16,8 @@ export class Loadable<T, E = Error> {
   static ofLoading<T>() {
     return new Loadable<T>(null, null, true);
   }
+
+  static ofDeferredLoading<T, E = Error>(state: Loadable<T, E>) {
+    return new Loadable(state.data, state.error, true);
+  }
 }
