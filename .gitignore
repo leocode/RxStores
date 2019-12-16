@@ -4,3 +4,5 @@ lib
 .cache-incremental
 coverage
 *.tgz
+.idea
+.vscode
