@@ -5,6 +5,7 @@ coverage
 .eslintrc.json
 .gitignore
 .np-config.json
+.idea
 jest.config.js
 tsconfig.json
 *.tgz

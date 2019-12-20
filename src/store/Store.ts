@@ -1,17 +1,13 @@
-import { BehaviorSubject, Observable } from "rxjs";
+import { BehaviorSubject, Observable, Subscribable } from "rxjs";
 import { filter, take, mapTo } from "rxjs/operators";
 
 type StoreInterfaceKeys = "init" | "methods" | "value" | "outputs";
 
 export type StoreInterface<S extends Store> = Omit<S, StoreInterfaceKeys>;
 
-export type StoreOutputs<S extends Store> = {
-  [P in keyof S]: S[P] extends Observable<any>
-  ? S[P]
-  : never;
-};
-
-export type StoreOutputKeys<S extends Store> = keyof StoreOutputs<S>;
+export type StoreOutputKeys<S extends Store> = {
+  [P in keyof S]: S[P] extends Subscribable<any> ? P : never;
+}[keyof S];
 
 export type StoreParametrizedOutput<T> = (key: string) => Observable<T>;
 
@@ -56,10 +52,6 @@ export abstract class Store<T = any> {
 
   get methods(): StoreInterface<this> {
     return this as StoreInterface<this>;
-  }
-
-  get outputs(): StoreOutputs<this> {
-    return this as StoreOutputs<this>;
   }
 
   createCustomOutput<Out, In extends Observable<any>>(
