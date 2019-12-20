@@ -5,15 +5,13 @@ type StoreInterfaceKeys = "init" | "methods" | "value" | "outputs";
 
 export type StoreInterface<S extends Store> = Omit<S, StoreInterfaceKeys>;
 
-export type StoreOutputKeys<S extends Store> = {
+export type StoreOutputs<S extends Store> = {
   [P in keyof S]: S[P] extends Observable<any>
-    ? P
-    : S[P] extends (key: string) => Observable<any>
-    ? P
-    : never;
-}[keyof S];
+  ? S[P]
+  : never;
+};
 
-export type StoreOutputs<S extends Store> = Pick<S, StoreOutputKeys<S>>;
+export type StoreOutputKeys<S extends Store> = keyof StoreOutputs<S>;
 
 export type StoreParametrizedOutput<T> = (key: string) => Observable<T>;
 
